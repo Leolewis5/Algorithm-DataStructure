@@ -4,6 +4,7 @@ using namespace std;
 class Polynomial;
 int MaxTerm =100;
 
+//term for polynomial
 class Term{
 	private:
 		int coef;
