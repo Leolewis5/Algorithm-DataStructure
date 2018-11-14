@@ -24,6 +24,7 @@ class Polynomial{
 		Polynomial &AddNewTerm(int , int);
 		Polynomial Add(Polynomial);
 		char compare(int, int);
+		void sort();
 };
 
 
@@ -42,6 +43,7 @@ Polynomial &Polynomial::AddNewTerm(int newcoef, int newexp){
 	termArray[end].exp=newexp;
 	end++;
 	free++;
+	sort();
 	return *this;
 }
 
@@ -79,6 +81,26 @@ Polynomial Polynomial::Add(Polynomial B){
 	return C;
 }
 
+void Polynomial::sort(){
+	//insertion sort method
+	for (int i = 1; i <end; i++){
+		int scoef= termArray[i].coef;
+		int sexp = termArray[i].exp;
+		int j = i -1;
+		for (j;j>=start;j--){
+			if (termArray[j].exp<sexp) {
+				termArray[j+1]=termArray[j];
+			}
+			else {
+				break;
+			} 
+		}
+		termArray[j+1].coef=scoef;
+		termArray[j+1].exp=sexp;
+	}
+	
+}
+
 char Polynomial::compare(int a, int b){
 	if (a>b) return '>';
 	else if (a<b) return '<';
@@ -87,7 +109,7 @@ char Polynomial::compare(int a, int b){
 
 int main(){
 	Polynomial A;
-	A.AddNewTerm(3,5).AddNewTerm(4,3).AddNewTerm(10,2);
+	A.AddNewTerm(3,5).AddNewTerm(4,3).AddNewTerm(10,2).AddNewTerm(10,7);
 	A.print();
 	Polynomial B;
 	B.AddNewTerm(6,7).AddNewTerm(5,3).AddNewTerm(3,1);
