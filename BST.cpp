@@ -44,18 +44,15 @@ TreeNode* BST::leftmost(TreeNode* current){
 TreeNode* BST::successor(TreeNode *current){
 	
 	if (current->right == NULL){
-		if (current==current->parent->left){
-			return current->parent;
+			
+		while (current!=current->parent->left){
+			current = current->parent;
+			if (current->parent==NULL){
+				return NULL;
+			} 
 		}
-		else{
-			while (current!=current->parent->left){
-				current = current->parent;
-				if (current==NULL){
-					return NULL;
-				} 
-			}
-			return current->parent;
-		}
+		return current->parent;
+		
 	}
 	else {
 		return leftmost(current->right);
@@ -125,30 +122,88 @@ TreeNode* BST::search(int kkey){
 
 void BST::Delete(int kkey){
 	TreeNode *current = search(kkey) ;
+	
 	if (current==NULL){
 		cout << "no such key element can delete"<<endl;
+		return;
 	}
 	
-	if (current->right != NULL){
-		TreeNode *newcurrent = leftmost(current->right);
-		newcurrent->parent = current->parent;
-		newcurrent->left= current->left;
-		if (newcurrent!=current->right){
-			newcurrent->right=current->right;
+	cout <<"will delete element: "<<current->name<< endl;
+	
+	if (current->left==NULL && current->right==NULL) {
+		if (current == current->parent->left){
+			current->parent->left = NULL;
+		}
+		else{
+			current->parent->right = NULL;
 		}
 		delete current;
+		return;
 	}
 	
-	else if(current->left!=NULL){
-		current->left->parent = current->parent;
-		current->parent->left = current->left;
+	else if (current->right==NULL && current->left != NULL){
+		TreeNode *Parent = current->parent;
+		TreeNode *leftChild = current->left;
+		if (Parent->right==current){
+			Parent->right = leftChild;
+		}
+		else{
+			Parent->left = leftChild;
+		}
 		delete current;
+		return;
 	}
 	else{
-		delete current;
-		current = NULL;
-	}
-	
+		TreeNode *newcurrent = successor(current);
+	//	cout <<"delete element is: "<< current->name << " and debug successor is "<< newcurrent->name<<endl;
+		TreeNode *Parent = current->parent;
+		TreeNode *rightChild = current->right;
+		TreeNode *leftChild = current->left;
+		
+	//	cout << "==================debug=========================="<<endl<< " Parent: " << Parent->name<< " rightChild: "<< rightChild->name<< " leftChild: "<< leftChild->name<<endl<< "================================================="<<endl;
+		if (newcurrent==rightChild){
+			if (current == Parent->left){
+				Parent->left = newcurrent;
+			}
+			else{
+				Parent->right = newcurrent;
+			}
+			newcurrent->parent = Parent;
+			newcurrent->left = leftChild;
+			leftChild->parent = newcurrent;
+		//	cout <<"===================================end delete flow===================="<<endl << "newcurrent parrent: "<<newcurrent->parent->name <<" newcurrent left: "<< newcurrent->left->name<< " newcurrent right: "<< newcurrent->right<< endl<< "===========================================" << endl;
+			delete current;
+			return;
+		}
+		else{
+			//need to modify current parent which clild pointer
+			if (current == Parent->left){
+				Parent->left = newcurrent;
+			}
+			else{
+				Parent->right = newcurrent;
+			}
+			// shifted leaf need to modify which parent pointer to NULL
+			if (newcurrent->right != NULL){
+				newcurrent->parent->left= newcurrent->right;
+				newcurrent->right->parent = newcurrent->parent;
+			}
+			else{
+				newcurrent->parent->left = NULL;
+			}
+		
+			//let current connecting pointer connect to newcurrent
+			newcurrent->parent = Parent;
+			newcurrent->left = leftChild;
+			newcurrent->right = rightChild;
+			leftChild->parent= newcurrent;
+			rightChild->parent= newcurrent;
+		//	cout <<"===================================end delete flow===================="<<endl << "newcurrent parrent: "<<newcurrent->parent->name<<" newcurrent left: "<< newcurrent->left->name<< " newcurrent right: "<< newcurrent->right->name<< endl<< "===========================================" << endl;
+		//	cout << "check one thing: "<< newcurrent->left->left<<endl;
+			delete current;
+			return;	
+		}
+	}	
 }
 
 
@@ -161,14 +216,20 @@ int main(){
 	
 	A.insert(30,"kulin");
 	A.insert(1,"human");
-
+	A.insert(27,"napa");
+	A.insert(28,"snapa");
+	A.insert(35,"lati");
+	
 	A.search(40);
 	A.search(1);
 	A.search(144);
 	
 	A.PrintInorder();
 	
-	A.Delete(1);
+	A.Delete(333);
+	A.Delete(30);
+	A.PrintInorder();
+	A.Delete(25);
 	A.PrintInorder();
 	
 	
