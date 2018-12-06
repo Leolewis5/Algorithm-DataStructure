@@ -26,12 +26,21 @@ class RBT{
 			}
 		void LeftTurn (TreeNode* );
 		void RightTurn (TreeNode* );
+		
 		void Insert (int , string );
-		void Delete (int);
+		char JudgeInsertion(TreeNode*);
 		void InsertFix(TreeNode*);
-		char judge(TreeNode*);
+		
+		// these two use in deletenode		
+		TreeNode* find(int);
+		void Delete (int);
+		void DeleteFix(TreeNode*);
+		TreeNode* successor (TreeNode *);
+		TreeNode* LeftMost (TreeNode* );
+		
 		void LeftRotation(TreeNode*);
 		void RightRotation(TreeNode*);
+		 
 		TreeNode* GetGrandfather(TreeNode*);
 		void PrintInorder();
 		void InorderPrint(TreeNode*);
@@ -39,6 +48,42 @@ class RBT{
 
 TreeNode* RBT::GetGrandfather(TreeNode* Current){
 	return Current->parent->parent;
+}
+
+TreeNode* RBT::LeftMost(TreeNode* current){
+	while(current->left!=nil){
+		current= current->left;
+	}
+	return current;
+}
+
+TreeNode* RBT::successor ( TreeNode* current){
+	if (current->right != nil){
+		return LeftMost(current->right);
+	}
+	else{
+		while (	current->parent!=nil && current!=current->parent->left){ //need to notice no succeccor  
+			current=current->parent;
+		}
+		return current->parent;
+	}
+}
+
+TreeNode* RBT::find(int EnterKey){
+	TreeNode* current = root; 
+	while(current!=nil){
+		if (current->key==EnterKey){
+			return current;
+		}
+		if (EnterKey<current->key){
+			current=current->left;
+		}
+		else{
+			current=current->right;
+		}
+	}
+	cout << "can not find item which key is: "<<EnterKey<<endl; 
+	return current;	
 }
 
 void RBT::LeftRotation(TreeNode* current){
@@ -132,7 +177,7 @@ void RBT::Insert(int EnterKey, string EnterName){
 	InsertFix(newnode);
 }
 
-char RBT::judge(TreeNode* Current){
+char RBT::JudgeInsertion(TreeNode* Current){
 	TreeNode* CurrentFather= Current->parent;
 	if ( CurrentFather==  CurrentFather->parent->left){  //uncle is grandfather right
 		if ( CurrentFather-> parent-> right->color == 0){ //uncle is red
@@ -163,7 +208,7 @@ void RBT::InsertFix(TreeNode* Current){
 	while (!Current->parent->color){	 //current parent is red need to enter the judge
 //	 cout <<"current name= "<<Current->name << " current judge" << judge(Current) <<endl;
 //	 cout <<"current father key: "<< Current->parent->key <<" current key: "<< Current->key<<endl;
-		switch (judge(Current)){
+		switch (JudgeInsertion(Current)){
 			case 'A':
 				Current->parent->color=1;
 				GetGrandfather(Current)->right->color=1;
@@ -207,6 +252,73 @@ void RBT::InsertFix(TreeNode* Current){
 	
 	root->color=1;
 } 
+
+
+// can be modify in simple way.
+void RBT::Delete(int key){
+	
+	TreeNode* current = find(key);
+	if (current == nil)	return;
+	
+	TreeNode* DeleteNode = NULL;
+	TreeNode* Child = NULL;
+	if (current->left==nil&&current->right==nil){
+		DeleteNode = current;
+		Child = nil;
+		if (current==current->parent->left){
+			current->parent->left= Child;
+		}
+		else{
+			current->parent->right= nil;
+		}
+		Child->parent = current->parent;
+	}
+	
+	else if (current->left!=nil&&current->right==nil){
+		DeleteNode = current;
+		Child = current->left; 
+		Child->parent = current->parent;
+		current->parent->left= current->left;
+ 
+	}
+	
+	else if (current->right!=nil&&current->left==nil){
+		DeleteNode = current;
+		Child = current->right;
+		Child->parent = current->parent;
+		current->parent->right= current->right;
+	}
+	
+	else if (current->left!=nil && current->right != nil){
+		DeleteNode = successor(current);
+		Child = DeleteNode->right;
+		Child->parent = DeleteNode->parent;
+		if (DeleteNode == DeleteNode->parent->left){
+			DeleteNode->parent->left = Child;			
+		}
+		else{
+			DeleteNode->parent->right = Child;
+		}
+			
+		current->key = DeleteNode->key;
+		current->name = DeleteNode->name;
+	}
+	
+	delete DeleteNode;
+	if (current->color==1){
+		DeleteFix(Child);
+	}
+}
+
+void RBT::DeleteJudge(TreeNode* current){
+	
+}
+
+void RBT::DeleteFix(TreeNode* current){
+	
+}
+
+
 
 void RBT::PrintInorder(){
 	TreeNode * current = root;
