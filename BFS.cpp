@@ -29,8 +29,8 @@ class Graph{
 		}
 		void AddEdgeList (int, int);
 		void BFS(int);
-		void showVE();
-		void ShowBFTEdge();
+		void showVE();  // show all graph edge
+		void ShowBFTEdge(); // show BFT edge
 };
 
 void Graph::ShowBFTEdge(){
@@ -41,7 +41,7 @@ void Graph::ShowBFTEdge(){
 	cout <<endl;
 }
 
-void Graph::showVE(){
+void Graph::showVE(){    
 	for (int i =0;i<key;i++){
 		cout<< "key is: "<< i << " ,and it conect to: ";
 		for (list<int>::iterator itr=AdjList[i].begin(); itr!=AdjList[i].end() ; itr++){
