@@ -29,9 +29,43 @@ class Graph{
 		}
 		void AddEdgeList (int, int);
 		void BFS(int);
-		void showVE();  // show all graph edge
-		void ShowBFTEdge(); // show BFT edge
+		void showVE();
+		void ShowBFTEdge();
+		void FCCBFS();  // find connect component of BFS
+		void Collapsed(int); // use to FFCBFS
 };
+
+void Graph::FCCBFS(){
+	BFS(0);
+	for(int i=0; i<key; i++){
+		Collapsed(i);
+	}
+	int component=0;
+	for(int i=0; i<key; i++){
+		if (predecessor[i]==-1){
+			component++;
+			cout << "component"<<component<<" :";
+			for (int j=0;j<key;j++){
+				if (predecessor[j]==i){
+					cout <<" "<<j;
+				}
+			}
+			cout<< endl;
+		}
+	}
+}
+
+void Graph::Collapsed(int current){
+	int root= current;
+	while(predecessor[root]!=-1){
+		root=predecessor[root];
+	}
+	while (current!=root){
+		int parent = predecessor[current];
+		predecessor[current]=root;
+		current = parent;
+	}
+}
 
 void Graph::ShowBFTEdge(){
 	cout <<"BST edge is (from, to): ";
@@ -41,7 +75,7 @@ void Graph::ShowBFTEdge(){
 	cout <<endl;
 }
 
-void Graph::showVE(){    
+void Graph::showVE(){
 	for (int i =0;i<key;i++){
 		cout<< "key is: "<< i << " ,and it conect to: ";
 		for (list<int>::iterator itr=AdjList[i].begin(); itr!=AdjList[i].end() ; itr++){
@@ -99,7 +133,7 @@ void Graph::BFS(int start){
 }
 
 int main(){
-	 Graph g1(9);    
+	 Graph g1(14);    
     // contribute one adjacenct list
     g1.AddEdgeList(0, 1);g1.AddEdgeList(0, 2);g1.AddEdgeList(0, 3);    
     g1.AddEdgeList(1, 0);g1.AddEdgeList(1, 4);
@@ -111,10 +145,17 @@ int main(){
     g1.AddEdgeList(7, 2);g1.AddEdgeList(7, 3);g1.AddEdgeList(7, 6);
     g1.AddEdgeList(8, 5);g1.AddEdgeList(8, 6);
     
+    g1.AddEdgeList(9, 10);g1.AddEdgeList(9, 12);
+    g1.AddEdgeList(10, 9);g1.AddEdgeList(10, 11);
+    g1.AddEdgeList(11, 10);g1.AddEdgeList(11, 12);
+    g1.AddEdgeList(12, 9);g1.AddEdgeList(12, 11);g1.AddEdgeList(12, 13);
+    g1.AddEdgeList(13, 12);
+    
 	//g1.showVE();
 	
     g1.BFS(0);    
     g1.ShowBFTEdge();
+    g1.FCCBFS();
 	
 	return 0;
 }
