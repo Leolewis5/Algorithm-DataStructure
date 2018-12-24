@@ -49,8 +49,10 @@ void Graph::DFS(int begin = 0){ // defualt start at 0
 	
 	for (int j=0; j<key; j++){
 		if (color[i]==0){
+			time++;
 			color[i]=1;
 			start[i]=time;
+			distance[i]=-1;
 			s.push(i);
 			while(!s.empty()){
 				int z=s.top();
