@@ -45,8 +45,6 @@ void GraphSP::DijkstraSP(int start = 0){
 		visted[vertex]=false;
 	}
 	
-	// store MSTEdge
-	list<Edge> MSTEdge;
 	
 	int Checknode = vertex;
 	
@@ -68,8 +66,6 @@ void GraphSP::DijkstraSP(int start = 0){
 		int extract = ExtractMin(value, visted, vertex);
 		
 		visted[extract] = true;
-		Edge Record = Edge(predecessor[extract],extract,value[extract]);
-		MSTEdge.push_back(Record);
 		current = extract;
 		Checknode--;
 	}
