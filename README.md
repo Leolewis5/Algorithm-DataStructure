@@ -1,9 +1,9 @@
 # Algorithm-DataStructure
 
-基本的資料結構與基礎演算法
-利用C++實現
+Personal Data structure/ Algorithm learning note.
+By Using C++
 
-## 基礎容器
+## Basic container
 * [Stack by List](https://github.com/Leolewis5/Algorithm-DataStructure/blob/master/stack_list.cpp)
 * [Stack by Array](https://github.com/Leolewis5/Algorithm-DataStructure/blob/master/stack_array.cpp)
 * [Set](https://github.com/Leolewis5/Algorithm-DataStructure/blob/master/set.cpp)
@@ -14,17 +14,17 @@
 * [HashOpenAddress](https://github.com/Leolewis5/Algorithm-DataStructure/blob/master/HashOpenAddress.cpp)
 * [BST](https://github.com/Leolewis5/Algorithm-DataStructure/blob/master/BST.cpp)
 
-## 基礎演算法
+## Basic Algorithm
 
-### 最小生成樹
+### Minimus spaning tree
 * [Kruskal](https://github.com/Leolewis5/Algorithm-DataStructure/blob/master/MST/MST-Kruskal.cpp)
 * [Prim](https://github.com/Leolewis5/Algorithm-DataStructure/blob/master/MST/MST-Prim.cpp)
 
-### 圖
+### Graph
 * [BFS](https://github.com/Leolewis5/Algorithm-DataStructure/blob/master/BFS.cpp)
 * [DFS](https://github.com/Leolewis5/Algorithm-DataStructure/blob/master/DFS.cpp)
 * [DFS_strong_connect_component](https://github.com/Leolewis5/Algorithm-DataStructure/blob/master/DFS_SCC.cpp)
 
-### 最短路徑
+### Shortest path
 * [Bellman-Ford](https://github.com/Leolewis5/Algorithm-DataStructure/blob/master/SP/Bellman-Ford.cpp)
 * [Dijkstra](https://github.com/Leolewis5/Algorithm-DataStructure/blob/master/SP/Dijkstra.cpp)
