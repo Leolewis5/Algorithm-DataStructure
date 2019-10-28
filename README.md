@@ -16,7 +16,7 @@ By Using C++
 
 ## Basic Algorithm
 
-### Minimus spaning tree
+### Minimum spaning tree
 * [Kruskal](https://github.com/Leolewis5/Algorithm-DataStructure/blob/master/MST/MST-Kruskal.cpp)
 * [Prim](https://github.com/Leolewis5/Algorithm-DataStructure/blob/master/MST/MST-Prim.cpp)
 
